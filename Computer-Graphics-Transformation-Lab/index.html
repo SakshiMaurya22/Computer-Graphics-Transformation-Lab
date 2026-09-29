@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2D Computer Graphics Transformation Laboratory</title><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>2D Computer Graphics Transformation Laboratory</h1><span>Group 4 — design an object; apply translation, rotation, scaling, reflection, shearing &amp; composite transformations</span></header>
+<main>
+<aside id="left">
+<h3>Object</h3>
+<select id="obj"><option value="point">Point</option><option value="line">Line</option><option value="triangle" selected>Triangle</option><option value="rectangle">Rectangle</option><option value="polygon">Polygon</option><option value="circle">Circle</option><option value="star">Star</option><option value="house">House</option><option value="flower">Flower</option><option value="robot">Robot</option><option value="logo">Custom logo</option><option value="scene">Multi-object scene</option><option value="custom">Custom polygon (below)</option></select>
+<input id="cust" value="0,0 4,0 4,2 2,4 0,2" title="x,y pairs separated by spaces">
+<h3>Transformation</h3>
+<select id="type"><option value="translate">Translation</option><option value="rotate">Rotation</option><option value="scale">Scaling</option><option value="reflect">Reflection</option><option value="shear">Shearing</option></select>
+<div class="g" data-t="translate"><label>Tx <output></output><input class="sl" id="tx" type="range" min="-8" max="8" step="0.5" value="3"></label><label>Ty <output></output><input class="sl" id="ty" type="range" min="-8" max="8" step="0.5" value="2"></label></div>
+<div class="g" data-t="rotate"><label>Angle θ (°) <output></output><input class="sl" id="ang" type="range" min="-360" max="360" step="5" value="45"></label></div>
+<div class="g" data-t="scale"><label>Sx <output></output><input class="sl" id="sx" type="range" min="-3" max="3" step="0.1" value="1.5"></label><label>Sy <output></output><input class="sl" id="sy" type="range" min="-3" max="3" step="0.1" value="1.5"></label></div>
+<div class="g" data-t="reflect"><label>Reflect about <select id="ref"><option value="x">X-axis (y=0)</option><option value="y">Y-axis (x=0)</option><option value="o">Origin</option><option value="d">Line y = x</option></select></label></div>
+<div class="g" data-t="shear"><label>ShX <output></output><input class="sl" id="shx" type="range" min="-2" max="2" step="0.1" value="0.5"></label><label>ShY <output></output><input class="sl" id="shy" type="range" min="-2" max="2" step="0.1" value="0"></label></div>
+<div id="pivbox"><h3>Pivot / fixed point</h3><select id="pm"><option value="origin">Origin (0,0)</option><option value="center">Object centre</option><option value="custom">Custom point</option></select>
+<div class="row"><label>Px <input id="px" type="number" value="2" step="0.5"></label><label>Py <input id="py" type="number" value="1" step="0.5"></label></div></div>
+<div class="row"><button id="apply" class="pri">Apply</button><button id="undo">Undo</button><button id="redo">Redo</button><button id="reset">Reset</button></div>
+<h3>Animation</h3><div class="row"><button id="play">▶ Play</button><button id="pause">⏸ Pause</button><button id="arst">⏹ Reset</button></div>
+<label>Duration (ms) <input id="dur" type="number" value="2000" min="300" step="100"></label>
+<h3>Display</h3>
+<label class="ck"><input type="checkbox" id="oShow" checked> Original (dashed)</label><label class="ck"><input type="checkbox" id="oPrev" checked> Preview pending op</label><label class="ck"><input type="checkbox" id="oSteps"> Step-by-step overlay</label><label class="ck"><input type="checkbox" id="oFill" checked> Fill shapes</label>
+</aside>
+<section id="center"><canvas id="cv"></canvas><div id="cur">x = 0.00, y = 0.00 · wheel = zoom · drag = pan</div><div class="legend"><i style="background:#8b98b5"></i>Original <i style="background:#36e0a0"></i>Transformed <i style="background:#ffb84d"></i>Preview <i style="background:#ff5c7a"></i>Pivot</div></section>
+<aside id="right"><h3>Current operation matrix</h3><div id="opM"></div><h3>Composite matrix M = Mn×…×M1</h3><div id="compM"></div><h3>Homogeneous form</h3><div class="note">[x' y' 1]ᵀ = M · [x y 1]ᵀ</div></aside>
+</main>
+<section id="bottom"><nav id="tabs"></nav>
+<div class="tab" id="t-hist"></div><div class="tab" id="t-mat"></div>
+<div class="tab" id="t-pt"><div class="row"><label>X <input id="ptx" type="number" value="2"></label><label>Y <input id="pty" type="number" value="3"></label><span class="note">uses the pending transformation from the left panel</span></div><pre id="ptout"></pre></div>
+<div class="tab" id="t-cmp"><div class="row2"><div><h4>Order A: M1 first … Mn last</h4><canvas id="cA"></canvas><div id="cAm"></div></div><div><h4>Order B: reversed sequence</h4><canvas id="cB"></canvas><div id="cBm"></div></div></div><p id="cmpMsg"></p></div>
+<div class="tab" id="t-co"></div><div class="tab" id="t-f"></div><div class="tab" id="t-v"></div></section>
+<script src="script.js"></script></body></html>
